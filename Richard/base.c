@@ -1,5 +1,6 @@
 #include <kipr/botball.h>
 #include "compass.h"
+#include "move.h"
 
 
 
@@ -15,12 +16,6 @@
 
 
 #define NORMAL_SPEED 1500 // max speed
-
-#define INCH 166 // # of ticks to move 1 inch
-#define SLEEP_INCH 166 // time to move 1 inch
-
-#define MOVE_DEGREE 7.5 // ticks to move for 1 degree
-#define SLEEP_DEGREE 7.5 // time to move 1 inch
 
 
 #define TRUE 1
@@ -47,73 +42,6 @@ void move(int inches) {
     msleep(abs(inches) * SLEEP_INCH); // time take to move == # of ticks
 }
 
-
-
-// direction is in degrees negative to go left positive to go right
-// turns in place (moves both wheels)
-void turnInPlace(float direction, int speed) {
-    mrp(RIGHT, NORMAL_SPEED, direction * MOVE_DEGREE);
-    mrp(LEFT, NORMAL_SPEED, -direction * MOVE_DEGREE);
-    msleep(abs(direction) * SLEEP_DEGREE); // time take to move == # of ticks
-}
-
-
-
-// direction is in degrees negative to go left positive to go right
-// turns only one wheel
-void turnOneWheel(float direction, int outside) {
-    // dont multiply by two b/c you need to move more for one wheel
-    mrp(RIGHT, NORMAL_SPEED, abs(direction + direction) * MOVE_DEGREE);
-    mrp(LEFT, NORMAL_SPEED, abs(direction - direction) * MOVE_DEGREE);
-    msleep(abs(direction * 2) * SLEEP_DEGREE); // time take to move == # of ticks
-}
-
-
-
-void lineFollow() {
-    // calibrate white (< black)
-    printf("Calibrate white\n");
-    while(!a_button()) {
-        msleep(30);
-        printf("%d\n", analog(TOPHAT));
-    }
-    int white = analog(TOPHAT);
-    printf("White: %d\n", white);
-    msleep(1000);
-    
-    // calibrate black (> white)
-    printf("Calibrate black\n");
-    while(!a_button()) {
-        msleep(30);
-        printf("%d\n", analog(TOPHAT));
-    }
-    int black = analog(TOPHAT);
-    printf("Black: %d\n", black);
-    msleep(1000);
-    
-    
-    // recommended sensitivity >= speed
-    const int speed = 700; // base speed; following line going at this speed
-    const int sensitivity = 800; // how much the speed can change by
-    // this means that speed can at most be (speed + sensitivity) and at least
-    // be (speed - sensitivity)
-    
-    printf("Starting line follower\n");
-    while(TRUE) {
-        float light = (float)(analog(TOPHAT) - white) / (float)black; // change to number between 0 and 1
-        // ensure light is within range from 0 to 1
-        if (light < 0) light = 0;
-        if (light > 1) light = 1;
-        
-        light -= 0.5; // change to number between -0.5 and 0.5
-        
-        // follows on left border
-        mav(RIGHT, speed + (light * sensitivity));
-        mav(LEFT, speed - (light * sensitivity));
-        
-        msleep(5);
-    }
-}
 
 
 
@@ -171,7 +99,7 @@ int main() {
     printf("---------------------------------------------------------\n");
     printf("Select a program\n");
     printf("Program A: camera\n");
-    printf("Program B: proximity sensor\n");
+    printf("Program B: line follower\n");
     printf("Program C: compass\n");
     printf("---------------------------------------------------------\n");
     
@@ -187,7 +115,10 @@ int main() {
             printf("Please wait...\n");
             msleep(500);
             printf("Starting program B!\n");
-            activity1();
+            int black;
+            int white;
+            lineCalibrate(&black, &white);
+            lineFollow(black, white);
             break;
         }
         if (c_button()) {
