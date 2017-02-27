@@ -10,8 +10,6 @@
 #define INCH 166 // # of ticks to move 1 inch
 #define MOVE_DEGREE 7.5 // # of ticks to move the robot 1 degree with both wheels
 
-#define NORMAL_SPEED 1500 // max speed
-
 
 #define TRUE 1
 #define FALSE 0
@@ -21,9 +19,9 @@
     Move the wallaby in a straight line.
     
     int inches
-        number of inches to move
+        Number of inches to move
     int speed
-        speed to move at
+        Speed to move the robot, a number between 0 and 1500
 **/
 void move(int inches, int speed) {
     mrp(RIGHT, speed, inches * INCH);
@@ -38,9 +36,9 @@ void move(int inches, int speed) {
     finished
     
     float direction
-        degrees to rotate the robot, positive is right and negative is left
+        Degrees to rotate the robot, positive is right and negative is left
     int speed
-        speed to move the robot, a number between 0 and 1500
+        Speed to move the robot, a number between 0 and 1500
 **/
 void turnInPlace(float direction, int speed) {
     mrp(RIGHT, speed, direction * MOVE_DEGREE);
@@ -54,11 +52,11 @@ void turnInPlace(float direction, int speed) {
     Turn the robot with one wheel.
     
     float direction
-        degrees to rotate the robot, positive is right and negative is left
+        Degrees to rotate the robot, positive is right and negative is left
     int wheel
-        1 uses outside wheel, 0 uses inside wheel
+        Set to 1 to use the outside wheel and 0 to use the inside wheel
     int speed
-        speed to move the robot, a number between 0 and 1500
+        Speed to move the robot, a number between 0 and 1500
 **/
 void turnOneWheel(float direction, int outside, int speed) {
     if (outside) {
@@ -79,10 +77,11 @@ void turnOneWheel(float direction, int outside, int speed) {
 
 /*
     Move the servo to a position (warning: delays 0.1 seconds)
+    
     int servo
-        id of the servo to move
+        Id of the servo to move
     int position
-        position to move the servo, between
+        Position to move the servo, between -2047 and 2047
 **/
 void setServo(int servo, int position) {
     enable_servo(servo);
@@ -95,13 +94,14 @@ void setServo(int servo, int position) {
 
 /*
     Calibrate the line follower
+    
     int* white
-        the white value for the line follower
+        Returns the white value for the line follower
     int* black
-        the black value for the line follower
+        Returns the black value for the line follower
 **/
 void lineCalibrate(int* white, int* black) {
-    // calibrate white (< black)
+    // calibrate white
     printf("Calibrate white\n");
     while(!a_button()) {
         msleep(30);
@@ -111,7 +111,7 @@ void lineCalibrate(int* white, int* black) {
     printf("White: %d\n", *white);
     msleep(1000);
 
-    // calibrate black (> white)
+    // calibrate black
     printf("Calibrate black\n");
     while(!a_button()) {
         msleep(30);
@@ -160,7 +160,6 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         }
     }
 }
-
 
 
 

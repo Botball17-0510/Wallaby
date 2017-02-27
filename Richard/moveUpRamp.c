@@ -1,7 +1,13 @@
 #include <kipr/botball.h>
 #include "move.h"
 
+
+
 #define ARM 0
+
+#define NORMAL_SPEED 1500 // max speed
+
+
 
 int main() {
   set_servo_position(ARM, 1100);
