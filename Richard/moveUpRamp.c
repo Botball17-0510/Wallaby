@@ -22,10 +22,17 @@
 
 
 int main() {
-    // setup arm
+    // calibrate line follower
+    int white = 2220;
+    int black = 3630;
+    // default values should be fine
+    // lineCalibrate(&white, &black);
+    
+    
+    // setup arm position
     set_servo_position(ARM, ARM_135);
     enable_servo(ARM);
-    // setup claw
+    // setup claw position
     set_servo_position(CLAW, CLAW_CLOSED);
     enable_servo(CLAW);
     msleep(700);
@@ -36,30 +43,25 @@ int main() {
     set_servo_position(ARM, ARM_0);
 
 
-    // line follower calibrate
-    int white = 2220;
-    int black = 3630;
-    //lineCalibrate(&white, &black);
-
-    // follow until top of ramp
+    // line follow until top of ramp
     lineFollow(white, black, 400, 600, 5500);
     
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(700);
-    // move over top of ramp
+    // move over top of ramp (robot sometimes gets stuck here)
     move(20, 700);
     // set arm down
     set_servo_position(ARM, ARM_n10);
     
 
-    // line follow until planter bin
+    // line follow until planter bin (it's okay if it runs over a few poms)
     lineFollow(white, black, 400, 600, 3000);
     
     // close claw
     set_servo_position(CLAW, CLAW_CLOSED);
     msleep(700);
-    // raise arm
+    // raise arm (might be a little too fast?)
     set_servo_position(ARM, ARM_45);
     msleep(700);
     // move forward
@@ -69,6 +71,7 @@ int main() {
     msleep(700);
     
     
+    // clean up
     disable_servo(ARM);
     disable_servo(CLAW);
 

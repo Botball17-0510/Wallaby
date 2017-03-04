@@ -11,9 +11,6 @@
 #define MOVE_DEGREE 7.5 // # of ticks to move the robot 1 degree with both wheels
 
 
-#define TRUE 1
-#define FALSE 0
-
 
 /*
     Move the wallaby in a straight line.
@@ -131,25 +128,24 @@ void lineCalibrate(int* white, int* black) {
     int black
         Black value for the line follower
     int speed
-        base speed the line follower is going at
+        Base speed the line follower is going at
     int sensitivity
-        how much the speed can vary (from speed - sensitivity to speed +
+        How much the speed can vary (from speed - sensitivity to speed +
         sensitivity)
     int totalTime
-        how long the line follower can run
+        How long the line follower can run
 **/
 void lineFollow(int white, int black, int speed, int sensitivity, int totalTime) {
     int timeElapsed = 0;
     
-    printf("Starting line follower\n");
-    while(TRUE) {
-        float light = (float)(analog(TOPHAT) - white) / (float)(black - white); // change to number between 0 and 1
+    while(1) {
+        // change to number between 0 and 1
+        float light = (float)(analog(TOPHAT) - white) / (float)(black - white);
         // ensure light is within range from 0 to 1
         if (light < 0) light = 0;
         if (light > 1) light = 1;
-        printf("%f\n", light);
         
-        // move straight for 0.4 to 0.6
+        // move straight if between 0.4 and 0.6
         if (light > 0.4 && light < 0.6) light = 0.5;
 
         light -= 0.5; // change to number between -0.5 and 0.5
@@ -157,11 +153,10 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         mav(RIGHT, speed + (light * sensitivity));
         mav(LEFT, speed - (light * sensitivity));
 
-        msleep(5);
         timeElapsed += 5;
-        if (timeElapsed > totalTime) {
-            break;
-        }
+        if (timeElapsed > totalTime) break;
+        
+        msleep(5);
     }
 }
 
