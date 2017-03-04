@@ -133,7 +133,8 @@ void lineCalibrate(int* white, int* black) {
     int speed
         base speed the line follower is going at
     int sensitivity
-        how much the speed can vary
+        how much the speed can vary (from speed - sensitivity to speed +
+        sensitivity)
     int totalTime
         how long the line follower can run
 **/
@@ -142,14 +143,17 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
     
     printf("Starting line follower\n");
     while(TRUE) {
-        float light = (float)(analog(TOPHAT) - white) / (float)black; // change to number between 0 and 1
+        float light = (float)(analog(TOPHAT) - white) / (float)(black - white); // change to number between 0 and 1
         // ensure light is within range from 0 to 1
         if (light < 0) light = 0;
         if (light > 1) light = 1;
+        printf("%f\n", light);
+        
+        // move straight for 0.4 to 0.6
+        if (light > 0.4 && light < 0.6) light = 0.5;
 
         light -= 0.5; // change to number between -0.5 and 0.5
 
-        // follows on left border
         mav(RIGHT, speed + (light * sensitivity));
         mav(LEFT, speed - (light * sensitivity));
 
