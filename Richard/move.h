@@ -122,7 +122,7 @@ void lineCalibrate(int* white, int* black) {
 
 
 /*
-    Follow the right edge of the line.
+    Follow the left edge of the line.
     int white
         White value for the line follower
     int black
@@ -150,8 +150,8 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
 
         light -= 0.5; // change to number between -0.5 and 0.5
 
-        mav(RIGHT, speed + (light * sensitivity));
-        mav(LEFT, speed - (light * sensitivity));
+        mav(RIGHT, speed - (light * sensitivity));
+        mav(LEFT, speed + (light * sensitivity));
 
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
