@@ -1,6 +1,10 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+#ifdef __GNUC__
+#include "kipr/botball.h"
+#endif
+
 
 
 #define RIGHT 0
@@ -46,14 +50,14 @@ void turnInPlace(float direction, int speed) {
 
 
 /*
-    Turn the robot with one wheel.
-    
-    float direction
-        Degrees to rotate the robot, positive is right and negative is left
-    int wheel
-        Set to 1 to use the outside wheel and 0 to use the inside wheel
-    int speed
-        Speed to move the robot, a number between 0 and 1500
+ * Turn the robot with one wheel.
+ *
+ * float direction
+ *     Degrees to rotate the robot, positive is right and negative is left
+ * int wheel
+ *     Set to 1 to use the outside wheel and 0 to use the inside wheel
+ * int speed
+ *     Speed to move the robot, a number between 0 and 1500
 **/
 void turnOneWheel(float direction, int outside, int speed) {
     if (outside) {
@@ -68,6 +72,32 @@ void turnOneWheel(float direction, int outside, int speed) {
         mrp(LEFT, speed, direction - abs(direction) * MOVE_DEGREE);
     }
     msleep(abs(direction * 2) * MOVE_DEGREE);
+}
+
+
+
+/**
+ * Moves the servo to a given position, taking a given amount of seconds
+ *
+ * @param (int) servo Id of the servo to move, between 0 and 3
+ * @param (int) startPos The starting position of the servo. If not at this
+ * position, it will move to it in the fastest time possible.
+ * @param (int) goal Position of the servo to move to, between 0 and 2047
+ * @param (float) seconds The amount of time to take to move to the position, in
+ * milliseconds.
+ */
+void slowServo(int servo, int startPos, int goal, int milliseconds) {
+    int goalRelative = goal - startPos;
+    // how far to move the servo every time
+    float oneMove = (float)(goalRelative) / (milliseconds / 5.0); // 5 ms delay
+    //                      ^-- delta        ^-- number of loops
+    
+    int pos;
+    for (pos = 0; abs(pos) < abs(goalRelative); pos += oneMove) {
+        set_servo_position(servo, (int)(pos + startPos));
+        printf("%d\n", (int)(pos + startPos));
+        msleep(5);
+    }
 }
 
 

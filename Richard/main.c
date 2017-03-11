@@ -12,7 +12,8 @@
 #define ARM_45 650
 #define ARM_30 1000
 #define ARM_0 1200
-#define ARM_n10 1350 // negative 10
+#define ARM_N10 1350 // negative 10
+#define ARM_n30 1500
 
 #define CLAW_OPEN 1300
 #define CLAW_CLOSED 1800
@@ -23,8 +24,6 @@
 
 
 int main() {
-    int i;
-    
     // calibrate line follower
     int white = 2220;
     int black = 3630;
@@ -41,21 +40,21 @@ int main() {
     msleep(700);
 
     // move forward
-    move(30, 700);
+    move(25, 700);
     // set arm down
     set_servo_position(ARM, ARM_0);
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 600, 8000);
-    
+    lineFollow(white, black, 400, 800, 8000);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(700);
+    
     // move over top of ramp (robot sometimes gets stuck here)
     move(15, 700);
     // set arm down
-    set_servo_position(ARM, ARM_n10);
+    set_servo_position(ARM, ARM_N10);
     msleep(700);
     
 
@@ -64,16 +63,13 @@ int main() {
     
     // raise arm
     msleep(1000);
-    for (i = 0; i < 45; i++) {
-        set_servo_position(ARM, (ARM_0 - ARM_45) * i/45 + ARM_45);
-        msleep(15);
-    }
+    slowServo(ARM, ARM_N10, ARM_45, 675);
     msleep(1000);
     // move back
     move(-13, 700);
     
     // set arm down
-    set_servo_position(ARM, ARM_n10);
+    set_servo_position(ARM, ARM_N10);
     msleep(700);
     // line follow again
     lineFollow(white, black, 400, 600, 2000);
@@ -83,10 +79,7 @@ int main() {
     set_servo_position(CLAW, CLAW_CLOSED);
     msleep(1000);
     // raise arm
-    for (i = 0; i < 45; i++) {
-        set_servo_position(ARM, (ARM_0 - ARM_45) * i/45 + ARM_45);
-        msleep(15);
-    }
+    slowServo(ARM, ARM_N10, ARM_45, 675);
     set_servo_position(ARM, ARM_45);
     msleep(1500);
     // move forward
