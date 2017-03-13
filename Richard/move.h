@@ -1,9 +1,14 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+
 #ifdef __GNUC__
 #include "kipr/botball.h"
 #endif
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 
 
 
@@ -17,34 +22,47 @@
 
 
 /*
-    Move the wallaby in a straight line.
-    
-    int inches
-        Number of inches to move
-    int speed
-        Speed to move the robot, a number between 0 and 1500
+ * Move the wallaby in a straight line.
+ * int inches Number of inches to move
+    int speed Speed to move the robot, a number between 0 and 1500
 **/
 void move(int inches, int speed) {
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
     msleep(abs(inches) * INCH); // time take to move == # of ticks
+    off(RIGHT);
+    off(LEFT);
 }
 
 
 
-/*
-    Turns the robot in place by moving both wheels, then waiting until it is
-    finished
-    
-    float direction
-        Degrees to rotate the robot, positive is right and negative is left
-    int speed
-        Speed to move the robot, a number between 0 and 1500
-**/
+/**
+ * Asynchronously move the wallaby.
+ * @param (int) inches Number of inches to move
+ * @param (int) speed Speed to move the robot, a number between 0 and 1500
+*/
+void asyncMove(int inches, int speed) {
+    mrp(RIGHT, speed, inches * INCH);
+    mrp(LEFT, speed, inches * INCH);
+}
+
+
+
+/**
+ * Turns the robot in place by moving both wheels, then waiting until it is
+ * finished
+ *
+ * float direction
+ *     Degrees to rotate the robot, positive is right and negative is left
+ * int speed
+ *     Speed to move the robot, a number between 0 and 1500
+*/
 void turnInPlace(float direction, int speed) {
     mrp(RIGHT, speed, direction * MOVE_DEGREE);
     mrp(LEFT, speed, -direction * MOVE_DEGREE);
-    msleep(abs(direction) * MOVE_DEGREE);
+    msleep(fabsf(direction) * MOVE_DEGREE);
+    off(RIGHT);
+    off(LEFT);
 }
 
 
@@ -63,15 +81,17 @@ void turnOneWheel(float direction, int outside, int speed) {
     if (outside) {
         // left moves on right turn
         // right moves on left turn
-        mrp(RIGHT, speed, direction - abs(direction) * MOVE_DEGREE);
-        mrp(LEFT, speed, direction + abs(direction) * MOVE_DEGREE);
+        mrp(RIGHT, speed, direction - fabsf(direction) * MOVE_DEGREE);
+        mrp(LEFT, speed, direction + fabsf(direction) * MOVE_DEGREE);
     } else {
         // right moves backward on right turn
         // left moves backward on left turn
-        mrp(RIGHT, speed, -direction - abs(direction) * MOVE_DEGREE);
-        mrp(LEFT, speed, direction - abs(direction) * MOVE_DEGREE);
+        mrp(RIGHT, speed, -direction - fabsf(direction) * MOVE_DEGREE);
+        mrp(LEFT, speed, direction - fabsf(direction) * MOVE_DEGREE);
     }
-    msleep(abs(direction * 2) * MOVE_DEGREE);
+    msleep(fabsf(direction * 2) * MOVE_DEGREE);
+    off(RIGHT);
+    off(LEFT);
 }
 
 
@@ -87,34 +107,19 @@ void turnOneWheel(float direction, int outside, int speed) {
  * milliseconds.
  */
 void slowServo(int servo, int startPos, int goal, int milliseconds) {
+    set_servo_position(servo, startPos);
     int goalRelative = goal - startPos;
     // how far to move the servo every time
     float oneMove = (float)(goalRelative) / (milliseconds / 5.0); // 5 ms delay
     //                      ^-- delta        ^-- number of loops
     
-    int pos;
-    for (pos = 0; abs(pos) < abs(goalRelative); pos += oneMove) {
+    
+    float pos;
+    for (pos = 0; fabsf(pos) < abs(goalRelative); pos += oneMove) {
         set_servo_position(servo, (int)(pos + startPos));
-        printf("%d\n", (int)(pos + startPos));
         msleep(5);
     }
-}
-
-
-
-/*
-    Move the servo to a position (warning: delays 0.1 seconds)
-    
-    int servo
-        Id of the servo to move
-    int position
-        Position to move the servo, between -2047 and 2047
-**/
-void setServo(int servo, int position) {
-    enable_servo(servo);
-    set_servo_position(servo, position);
-    msleep(100);
-    disable_servo(servo);
+    set_servo_position(servo, goal);
 }
 
 
@@ -188,6 +193,8 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         
         msleep(5);
     }
+    off(RIGHT);
+    off(LEFT);
 }
 
 

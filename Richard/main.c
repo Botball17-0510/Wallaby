@@ -13,14 +13,10 @@
 #define ARM_30 1000
 #define ARM_0 1200
 #define ARM_N10 1350 // negative 10
-#define ARM_n30 1500
+#define ARM_N30 1500 // negative 30
 
 #define CLAW_OPEN 1300
 #define CLAW_CLOSED 1800
-
-
-#define NORMAL_SPEED 1500 // max speed
-
 
 
 int main() {
@@ -35,9 +31,9 @@ int main() {
     set_servo_position(ARM, ARM_135);
     enable_servo(ARM);
     // setup claw position
-    set_servo_position(CLAW, CLAW_CLOSED);
     enable_servo(CLAW);
-    msleep(700);
+    set_servo_position(CLAW, CLAW_CLOSED);
+    msleep(1000);
 
     // move forward
     move(25, 700);
@@ -46,47 +42,52 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 800, 8000);
+    lineFollow(white, black, 400, 1100, 9000);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
-    msleep(700);
-    
-    // move over top of ramp (robot sometimes gets stuck here)
-    move(15, 700);
+    msleep(500);
     // set arm down
-    set_servo_position(ARM, ARM_N10);
-    msleep(700);
+    set_servo_position(ARM, ARM_N30);
+    msleep(500);
+    
+    // move over top of ramp
+    asyncMove(15, 700);
+    // slowly move up arm
+    slowServo(ARM, ARM_N30, ARM_N10, 1400);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
-    lineFollow(white, black, 400, 600, 1500);
+    lineFollow(white, black, 400, 600, 2500);
+    msleep(1000);
     
     // raise arm
+    slowServo(ARM, ARM_N10, ARM_45, 1000);
     msleep(1000);
-    slowServo(ARM, ARM_N10, ARM_45, 675);
-    msleep(1000);
+    printf("before moving back\n");
     // move back
     move(-13, 700);
+    printf("after moving back\n");
     
+    
+    // REPEAT
     // set arm down
     set_servo_position(ARM, ARM_N10);
-    msleep(700);
+    msleep(1000);
     // line follow again
-    lineFollow(white, black, 400, 600, 2000);
+    lineFollow(white, black, 400, 600, 1500);
+    msleep(1000);
     
     // close claw
-    msleep(1000);
     set_servo_position(CLAW, CLAW_CLOSED);
     msleep(1000);
     // raise arm
-    slowServo(ARM, ARM_N10, ARM_45, 675);
-    set_servo_position(ARM, ARM_45);
-    msleep(1500);
+    slowServo(ARM, ARM_N10, ARM_45, 1000);
+    msleep(1000);
     // move forward
     move(5, 700);
     // drop poms
     set_servo_position(CLAW, CLAW_OPEN);
-    msleep(700);
+    msleep(1000);
     
     
     // clean up

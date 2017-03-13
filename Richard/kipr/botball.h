@@ -7,8 +7,9 @@ void msleep(int x);
 void set_servo_position(int x, int y);
 void enable_servo(int x);
 void disable_servo(int x);
-void a_button(int x);
-void analog(int x);
-void mav(int x);
+int a_button();
+int analog(int x);
+void mav(int x, int y);
+void off(int x);
 
 #endif
