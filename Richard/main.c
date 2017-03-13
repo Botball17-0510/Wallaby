@@ -33,7 +33,7 @@ int main() {
     // setup claw position
     enable_servo(CLAW);
     set_servo_position(CLAW, CLAW_CLOSED);
-    msleep(1000);
+    msleep(500);
 
     // move forward
     move(25, 700);
@@ -42,10 +42,9 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 1100, 9000);
+    lineFollow(white, black, 400, 1100, 9200);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
-    msleep(500);
     // set arm down
     set_servo_position(ARM, ARM_N30);
     msleep(500);
@@ -53,15 +52,16 @@ int main() {
     // move over top of ramp
     asyncMove(15, 700);
     // slowly move up arm
-    slowServo(ARM, ARM_N30, ARM_N10, 1400);
+    slowServo(ARM, ARM_N30, ARM_N10, 1500);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
     lineFollow(white, black, 400, 600, 2500);
-    msleep(1000);
+    msleep(500);
     
     // raise arm
-    slowServo(ARM, ARM_N10, ARM_45, 1000);
+    slowServo(ARM, ARM_N10, ARM_45, 200);
+    ao();
     msleep(1000);
     printf("before moving back\n");
     // move back
@@ -72,19 +72,20 @@ int main() {
     // REPEAT
     // set arm down
     set_servo_position(ARM, ARM_N10);
-    msleep(1000);
+    msleep(500);
     // line follow again
-    lineFollow(white, black, 400, 600, 1500);
-    msleep(1000);
+    lineFollow(white, black, 400, 600, 3000);
+    msleep(500);
     
     // close claw
     set_servo_position(CLAW, CLAW_CLOSED);
-    msleep(1000);
+    msleep(500);
     // raise arm
-    slowServo(ARM, ARM_N10, ARM_45, 1000);
-    msleep(1000);
+    slowServo(ARM, ARM_N10, ARM_45, 200);
+    msleep(500);
     // move forward
-    move(5, 700);
+    move(10, 700);
+    msleep(500);
     // drop poms
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(1000);

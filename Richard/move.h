@@ -27,6 +27,10 @@
     int speed Speed to move the robot, a number between 0 and 1500
 **/
 void move(int inches, int speed) {
+    // if want to go backwards, set speed negative
+    if (inches < 0) speed *= -1;
+    // distance still has to be negative, not positive
+    
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
     msleep(abs(inches) * INCH); // time take to move == # of ticks
@@ -42,6 +46,10 @@ void move(int inches, int speed) {
  * @param (int) speed Speed to move the robot, a number between 0 and 1500
 */
 void asyncMove(int inches, int speed) {
+    // if want to go backwards, set speed negative
+    if (inches < 0) speed *= -1;
+    // distance still has to be negative, not positive
+    
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
 }
