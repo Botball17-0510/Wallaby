@@ -25,7 +25,8 @@ void move(int inches, int speed) {
     
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
-    msleep(abs(inches) * INCH); // time take to move == # of ticks
+    // a little less time if at max speed; figure out factor later
+    msleep((float)abs(inches) * (float)INCH * (speed == 1500 ? 0.7 : 1)); // time take to move == # of ticks
     off(RIGHT);
     off(LEFT);
 }
@@ -137,6 +138,6 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         
         msleep(5);
     }
-    off(RIGHT);
-    off(LEFT);
+    // off(RIGHT);
+    // off(LEFT);
 }
