@@ -6,6 +6,7 @@
 #define ARM 0
 #define CLAW 1
 
+
 // arm positions (by degree)
 #define ARM_135 100
 #define ARM_90 400
@@ -17,6 +18,7 @@
 
 #define CLAW_OPEN 1300
 #define CLAW_CLOSED 1800
+
 
 
 int main() {
