@@ -12,7 +12,7 @@
 #define ARM_90 350
 #define ARM_45 650
 #define ARM_30 1000
-#define ARM_0 1200
+#define ARM_0 1300
 #define ARM_N10 1350 // negative 10
 #define ARM_N30 1500 // negative 30
 
@@ -44,17 +44,17 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 1400, 9000);
+    lineFollow(white, black, 400, 1400, 8900);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
-    move(3, 1500);
-    // set arm down
-    set_servo_position(ARM, ARM_N30);
     
     // move over top of ramp
-    asyncMove(15, 700);
+    move(10, 1500);
+    turnOneWheel(15, 1, 1000);
+    // set arm down
+    set_servo_position(ARM, ARM_N10);
     // slowly move up arm
-    slowServo(ARM, ARM_N30, ARM_N10, 1300);
+    // slowServo(ARM, ARM_N30, ARM_N10, 1300);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
