@@ -13,11 +13,11 @@
 #define ARM_45 650
 #define ARM_30 1000
 #define ARM_0 1300
-#define ARM_N10 1350 // negative 10
+#define ARM_N10 1380 // negative 10
 #define ARM_N30 1500 // negative 30
 
-#define CLAW_OPEN 500
-#define CLAW_CLOSED 220
+#define CLAW_OPEN 600
+#define CLAW_CLOSED 200
 
 
 
@@ -29,43 +29,80 @@ int main() {
     // lineCalibrate(&white, &black);
     
     
-    // setup arm position
-    set_servo_position(ARM, ARM_135);
-    enable_servo(ARM);
-    // setup claw position
+    set_servo_position(CLAW, CLAW_OPEN);
+    set_servo_position(ARM, ARM_N10);
     enable_servo(CLAW);
-    set_servo_position(CLAW, CLAW_CLOSED);
-    msleep(1000);
+    enable_servo(ARM);
+    msleep(700);
+    
+    move(4, 700);
+    
+    // setup claw position
+    // set_servo_position(CLAW, CLAW_CLOSED);
+    slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
+    msleep(400);
+    // setup arm position
+    slowServo(ARM, ARM_N10, ARM_90, 200);
 
     // move forward
-    move(22, 1500);
+    move(5, 800);
+    move(10, 1500);
     // set arm down
     set_servo_position(ARM, ARM_0);
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 1400, 8900);
+    lineFollow(white, black, 400, 1400, 8500);
+    move(10, 1500);
+    // set arm down
+    set_servo_position(ARM, ARM_N30);
+    msleep(500);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
     
     // move over top of ramp
-    move(10, 1500);
-    turnOneWheel(15, 1, 1000);
-    // set arm down
-    set_servo_position(ARM, ARM_N10);
+    asyncMove(10, 700);
     // slowly move up arm
-    // slowServo(ARM, ARM_N30, ARM_N10, 1300);
+    slowServo(ARM, ARM_N30, ARM_N10, 1300);
+    msleep(500);
+    
+    // move back a bit
+    asyncMove(-10, 700);
+    slowServo(ARM, ARM_N10, ARM_90, 1000);
+    msleep(1000);
+    // move arm back down and move forward
+    slowServo(ARM, ARM_90, ARM_N10, 1000);
+    msleep(500);
+    move(10, 700);
+    
+    // turn left a bit
+    turnOneWheel(-25, 1, 700);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
-    lineFollow(white, black, 400, 600, 2500);
+    lineFollow(white, black, 400, 600, 2700);
+    msleep(500);
+    // move back a bit
+    move(-3, 700);
+    
+    // close claw
+    slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 400);
+    msleep(800);
+    // raise arm
+    slowServo(ARM, ARM_N10, ARM_45, 1000);
+    msleep(1000);
+    
+    // move forward
+    move(10, 800);
+    msleep(500);
+    // drop poms
+    set_servo_position(CLAW, CLAW_OPEN);
+    msleep(500);
+    set_servo_position(ARM, ARM_135);
     msleep(500);
     
-    // raise arm
-    slowServo(ARM, ARM_N10, ARM_90, 300);
-    msleep(1000);
     // move back
-    move(-13, 700);
+    move(-20, 700);
     
     
     // REPEAT
@@ -73,17 +110,19 @@ int main() {
     set_servo_position(ARM, ARM_N10);
     msleep(500);
     // line follow again
-    lineFollow(white, black, 400, 600, 2500);
+    lineFollow(white, black, 400, 600, 1000);
     msleep(500);
+    // move back a bit
+    // move(-3, 700);
     
     // close claw
     set_servo_position(CLAW, CLAW_CLOSED);
     msleep(500);
     // raise arm
-    slowServo(ARM, ARM_N10, ARM_90, 1000);
-    msleep(500);
+    slowServo(ARM, ARM_N10, ARM_45, 1000);
+    msleep(1000);
     // move forward
-    move(20, 700);
+    move(5, 800);
     msleep(500);
     // drop poms
     set_servo_position(ARM, ARM_45);

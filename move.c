@@ -19,6 +19,10 @@
 
 
 void move(int inches, int speed) {
+    // clear position counter
+    cmpc(RIGHT);
+    cmpc(LEFT);
+    
     // if want to go backwards, set speed negative
     if (inches < 0) speed *= -1;
     // distance still has to be negative, not positive
