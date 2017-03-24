@@ -29,6 +29,7 @@ int main() {
     // lineCalibrate(&white, &black);
     
     
+    // set initial claw position to grab poms
     set_servo_position(CLAW, CLAW_OPEN);
     set_servo_position(ARM, ARM_N10);
     enable_servo(CLAW);
@@ -37,14 +38,12 @@ int main() {
     
     move(4, 700);
     
-    // setup claw position
-    // set_servo_position(CLAW, CLAW_CLOSED);
+    // grab pom
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
     msleep(400);
-    // setup arm position
     slowServo(ARM, ARM_N10, ARM_90, 200);
 
-    // move forward
+    // move forward: slowly at first, then faster
     move(5, 800);
     move(10, 1500);
     // set arm down
@@ -70,12 +69,12 @@ int main() {
     asyncMove(-10, 700);
     slowServo(ARM, ARM_N10, ARM_90, 1000);
     msleep(1000);
-    // move arm back down and move forward
+    // move arm down and move forward
     slowServo(ARM, ARM_90, ARM_N10, 1000);
     msleep(500);
     move(10, 700);
     
-    // turn left a bit
+    // turn left a bit to get light sensor on line
     turnOneWheel(-25, 1, 700);
     
 
