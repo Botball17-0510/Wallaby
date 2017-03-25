@@ -84,20 +84,31 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
 
 
 // arm positions (by degree)
-#define ARM_135 100
-#define ARM_90 350
-#define ARM_45 650
+#define ARM_135 2047
+#define ARM_90 1650
+#define ARM_45 1300
 #define ARM_30 1000
-#define ARM_0 1300
-#define ARM_N10 1380 // negative 10
-#define ARM_N30 1500 // negative 30
+#define ARM_0 900
+#define ARM_N10 780 // negative 10
+#define ARM_N30 600 // negative 30
 
-#define CLAW_OPEN 600
-#define CLAW_CLOSED 200
+#define CLAW_OPEN 1200
+#define CLAW_CLOSED 550
 
 
 
 int main() {
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    printf("*******\n");
+    return 0;
+    
     // calibrate line follower
     int white = 2220;
     int black = 3630;
@@ -112,7 +123,7 @@ int main() {
     enable_servo(ARM);
     msleep(700);
     
-    move(4, 700);
+    move(2, 700);
     
     // grab pom
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
@@ -123,17 +134,19 @@ int main() {
     move(5, 800);
     move(10, 1500);
     // set arm down
+    set_servo_position(ARM, ARM_30);
+    msleep(300);
     set_servo_position(ARM, ARM_0);
 
 
     // line follow until top of ramp
     lineFollow(white, black, 400, 1400, 8500);
+    // open claw
+    set_servo_position(CLAW, CLAW_OPEN);
     move(10, 1500);
     // set arm down
     set_servo_position(ARM, ARM_N30);
     msleep(500);
-    // open claw
-    set_servo_position(CLAW, CLAW_OPEN);
     
     // move over top of ramp
     asyncMove(10, 700);
@@ -151,11 +164,11 @@ int main() {
     move(10, 700);
     
     // turn left a bit to get light sensor on line
-    turnOneWheel(-25, 1, 700);
+    turnOneWheel(-5, 1, 700);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
-    lineFollow(white, black, 400, 600, 2700);
+    lineFollow(white, black, 400, 600, 2000);
     msleep(500);
     // move back a bit
     move(-3, 700);
@@ -168,7 +181,7 @@ int main() {
     msleep(1000);
     
     // move forward
-    move(10, 800);
+    move(5, 800);
     msleep(500);
     // drop poms
     set_servo_position(CLAW, CLAW_OPEN);
