@@ -1,0 +1,15 @@
+{
+    "target": "bin/minified.c",
+    "head": [
+        "#include <kipr/botball.h>",
+        "#define MINIFIED",
+        ""
+    ],
+    "declarations": [
+        "src/move.h"
+    ],
+    "sources": [
+        "src/main.c",
+        "src/move.c"
+    ]
+}

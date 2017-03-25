@@ -1,6 +1,7 @@
+#ifndef MINIFIED
 #include <kipr/botball.h>
 #include "move.h"
-
+#endif
 
 
 #define ARM 0
