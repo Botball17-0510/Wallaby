@@ -12,6 +12,7 @@
 #define RIGHT 0
 #define LEFT 1
 #define TOPHAT 0
+#define TOUCH 0
 
 #define INCH 166 // # of ticks to move 1 inch
 #define MOVE_DEGREE 7.5 // # of ticks to move the robot 1 degree with both wheels
@@ -120,6 +121,7 @@ void lineCalibrate(int* white, int* black) {
 
 
 void lineFollow(int white, int black, int speed, int sensitivity, int totalTime) {
+    
     int timeElapsed = 0;
     
     while(1) {
@@ -139,6 +141,8 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
 
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
+        
+        if (digital(TOUCH)) break;
         
         msleep(5);
     }

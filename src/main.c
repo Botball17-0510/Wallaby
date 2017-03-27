@@ -1,7 +1,5 @@
-#ifndef MINIFIED
 #include <kipr/botball.h>
 #include "move.h"
-#endif
 
 
 #define ARM 0
@@ -61,16 +59,17 @@ int main() {
     move(7, 1500);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
-    move(7, 1500);
-    // set arm down
-    set_servo_position(ARM, ARM_N30);
     msleep(500);
+    // set arm down
+    set_servo_position(ARM, ARM_N10);
+    msleep(500);
+    move(10, 1500);
     
     // move over top of ramp
-    asyncMove(10, 700);
+    // asyncMove(10, 700);
     // slowly move up arm
-    slowServo(ARM, ARM_N30, ARM_N10, 1300);
-    msleep(500);
+    // slowServo(ARM, ARM_N30, ARM_N10, 1300);
+    // msleep(500);
     
     // move back a bit
     asyncMove(-10, 700);
@@ -79,35 +78,32 @@ int main() {
     // move arm down and move forward
     slowServo(ARM, ARM_90, ARM_N10, 1000);
     msleep(500);
-    move(10, 700);
     
     // turn left a bit to get light sensor on line
-    turnOneWheel(-15, 1, 700);
+    turnOneWheel(-5, 1, 700);
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
-    lineFollow(white, black, 400, 600, 2200);
+    lineFollow(white, black, 400, 600, 12345); // touch mode
     msleep(500);
     // move back a bit
-    move(-4, 700);
+    move(-5, 700);
     
     // close claw
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 400);
     msleep(800);
     // raise arm
-    slowServo(ARM, ARM_N10, ARM_90, 1000);
+    slowServo(ARM, ARM_N10, ARM_45, 1000);
     msleep(1000);
     
     // move forward
     move(6, 800);
     msleep(500);
     // drop poms
-    set_servo_position(ARM, ARM_45);
-    msleep(500);
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(500);
     set_servo_position(ARM, ARM_135);
-    msleep(500);
+    msleep(1000);
     
     // move back
     move(-15, 700);
@@ -120,20 +116,25 @@ int main() {
     set_servo_position(ARM, ARM_N10);
     msleep(500);
     // line follow again
-    lineFollow(white, black, 400, 600, 1000);
+    lineFollow(white, black, 400, 600, 12345); // touch mode
     msleep(500);
+    printf("line follow\n");
     // move back a bit
-    // move(-3, 700);
+    move(-5, 700);
+    printf("move back\n");
     
     // close claw
     set_servo_position(CLAW, CLAW_CLOSED);
     msleep(500);
+    printf("close claw\n");
     // raise arm
     slowServo(ARM, ARM_N10, ARM_45, 1000);
     msleep(1000);
+    printf("raise arm\n");
     // move forward
-    move(5, 800);
+    move(6, 800);
     msleep(500);
+    printf("move forward\n");
     // drop poms
     set_servo_position(ARM, ARM_45);
     msleep(500);
