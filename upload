@@ -3,3 +3,5 @@
 scp -r include/ "root@192.168.125.1:~/Documents/KISS/a/b/"
 scp -r src/ "root@192.168.125.1:~/Documents/KISS/a/b/"
 ssh root@192.168.125.1 "gcc -I/home/root/Documents/KISS/a/b/include -I/usr/local/include/include -Wall /home/root/Documents/KISS/a/b/src/main.c /home/root/Documents/KISS/a/b/src/move.c /harrogate/apps/compiler/compilation-environments/c/_init_helper.c -L/usr/local/lib -lwallaby -lm -o /home/root/Documents/KISS/a/b/bin/botball_user_program"
+
+say "Compiled compiled compiled compiled compiled"

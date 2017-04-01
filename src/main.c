@@ -11,7 +11,7 @@
 #define ARM_90 1650
 #define ARM_45 1300
 #define ARM_30 1000
-#define ARM_0 900
+#define ARM_0 850
 #define ARM_N10 750 // negative 10
 #define ARM_N30 600 // negative 30
 
@@ -47,11 +47,10 @@ int main() {
     msleep(400);
     slowServo(ARM, ARM_N10, ARM_90, 100);
 
-    // move forward: slowly at first, then faster
-    // move(5, 800);
     move(17, 1500);
     // set arm down
     slowServo(ARM, ARM_90, ARM_0, 500);
+    move(3, 1500);
 
 
     // line follow until top of ramp
@@ -60,22 +59,13 @@ int main() {
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(500);
-    // set arm down
-    set_servo_position(ARM, ARM_N10);
-    msleep(500);
     move(10, 1500);
     
-    // move over top of ramp
-    // asyncMove(10, 700);
-    // slowly move up arm
-    // slowServo(ARM, ARM_N30, ARM_N10, 1300);
-    // msleep(500);
-    
-    // move back a bit
-    asyncMove(-10, 700);
+    // raise arm and move back
     slowServo(ARM, ARM_N10, ARM_90, 1000);
     msleep(1000);
-    // move arm down and move forward
+    move(-10, 700);
+    // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 1000);
     msleep(500);
     
@@ -84,10 +74,12 @@ int main() {
     
 
     // line follow until planter bin (it's okay if it runs over a few poms)
+    printf("before line follow\n");
     lineFollow(white, black, 400, 600, 12345); // touch mode
+    printf("after line follow\n");
     msleep(500);
     // move back a bit
-    move(-5, 700);
+    move(-4, 700);
     
     // close claw
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 400);
@@ -120,7 +112,7 @@ int main() {
     msleep(500);
     printf("line follow\n");
     // move back a bit
-    move(-5, 700);
+    move(-4, 700);
     printf("move back\n");
     
     // close claw

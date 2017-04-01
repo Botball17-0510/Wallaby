@@ -12,7 +12,7 @@
 #define RIGHT 0
 #define LEFT 1
 #define TOPHAT 0
-#define TOUCH 0
+#define TOUCH 1
 
 #define INCH 166 // # of ticks to move 1 inch
 #define MOVE_DEGREE 7.5 // # of ticks to move the robot 1 degree with both wheels
