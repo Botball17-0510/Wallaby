@@ -79,7 +79,7 @@ int main() {
     printf("after line follow\n");
     msleep(500);
     // move back a bit
-    move(-4, 700);
+    move(-3, 700);
     
     // close claw
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 400);
@@ -100,7 +100,7 @@ int main() {
     // move back
     move(-15, 700);
     // turn left a bit to get light sensor on line
-    turnOneWheel(-15, 1, 700);
+    // turnOneWheel(-15, 1, 700);
     
     
     // REPEAT
@@ -112,7 +112,7 @@ int main() {
     msleep(500);
     printf("line follow\n");
     // move back a bit
-    move(-4, 700);
+    move(-3, 700);
     printf("move back\n");
     
     // close claw

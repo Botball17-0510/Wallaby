@@ -142,7 +142,11 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
         
-        if (digital(TOUCH)) break;
+        if (digital(TOUCH)) {
+            off(RIGHT);
+            off(LEFT);
+            break;
+        }
         
         msleep(5);
     }
