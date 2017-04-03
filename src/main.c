@@ -54,12 +54,19 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 1400, 8500);
-    move(7, 1500);
+    lineFollow(white, black, 400, 1200, 7800);
+    move(7, 500);
+    msleep(500);
+    set_servo_position(CLAW, CLAW_OPEN);
+    slowServo(ARM, ARM_0, ARM_N30, 500);
+    set_servo_position(CLAW, CLAW_CLOSED);
+    slowServo(ARM, ARM_N30, ARM_0, 500);
+    msleep(500);
+    move(10, 1500);
     // open claw
     set_servo_position(CLAW, CLAW_OPEN);
     msleep(500);
-    move(10, 1500);
+    move(7, 1500);
     
     // raise arm and move back
     slowServo(ARM, ARM_N10, ARM_90, 1000);
@@ -76,6 +83,7 @@ int main() {
     // line follow until planter bin (it's okay if it runs over a few poms)
     printf("before line follow\n");
     lineFollow(white, black, 400, 600, 12345); // touch mode
+    // lineFollow(white, black, 400, 600, 2000);
     printf("after line follow\n");
     msleep(500);
     // move back a bit
