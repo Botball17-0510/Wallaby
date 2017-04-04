@@ -70,5 +70,13 @@ void lineCalibrate(int* white, int* black);
 void lineFollow(int white, int black, int speed, int sensitivity, int totalTime);
 
 
+/**
+ * Calibrate the line follower
+ * @param white Returns the white value for the line follower
+ * @param black Returns the black value for the line follower
+ */
+void lineCalibrate(int* white, int* black);
+
+
 
 #endif

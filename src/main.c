@@ -25,11 +25,7 @@
 
 
 
- void dropDemPoms() {
-     int white = 2220;
-     int black = 3630;
-     
-     
+ void dropDemPoms(int white, int black) {
      // line follow until planter bin (it's okay if it runs over a few poms)
      printf("before line follow\n");
      // lineFollow(white, black, 400, 600, 12345); // touch mode
@@ -102,7 +98,7 @@ int main() {
     // turn left a bit to get light sensor on line
     turnOneWheel(-10, 1, 700);
     
-    dropDemPoms();
+    dropDemPoms(white, black);
     
     // move back
     move(-25, 1500);
@@ -111,7 +107,7 @@ int main() {
     
     
     /* REPEAT */
-    dropDemPoms();
+    dropDemPoms(white, black);
     
     // clean up
     disable_servo(ARM);

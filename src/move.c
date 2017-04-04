@@ -153,3 +153,27 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
     // off(RIGHT);
     // off(LEFT);
 }
+
+
+
+void lineCalibrate(int* white, int* black) {
+    // calibrate white
+    while(!right_button()) {
+        msleep(10);
+        printf("White: %d\n", analog(TOPHAT));
+    }
+    *white = analog(TOPHAT);
+
+    // calibrate black
+    while(!right_button()) {
+        msleep(10);
+        printf("Black: %d\n", analog(TOPHAT));
+    }
+    *black = analog(TOPHAT);
+    
+    printf("White: %d, black: %d", *white, *black);
+    printf("Press right button to continue:");
+    while(!right_button()) {
+        msleep(10);
+    }
+}
