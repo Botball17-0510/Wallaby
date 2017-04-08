@@ -96,30 +96,6 @@ void slowServo(int servo, int startPos, int goal, int milliseconds) {
 
 
 
-void lineCalibrate(int* white, int* black) {
-    // calibrate white
-    printf("Calibrate white\n");
-    while(!a_button()) {
-        msleep(30);
-        printf("%d\n", analog(TOPHAT));
-    }
-    *white = analog(TOPHAT);
-    printf("White: %d\n", *white);
-    msleep(1000);
-
-    // calibrate black
-    printf("Calibrate black\n");
-    while(!a_button()) {
-        msleep(30);
-        printf("%d\n", analog(TOPHAT));
-    }
-    *black = analog(TOPHAT);
-    printf("Black: %d\n", *black);
-    msleep(1000);
-}
-
-
-
 void lineFollow(int white, int black, int speed, int sensitivity, int totalTime) {
     
     int timeElapsed = 0;
@@ -142,16 +118,12 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
         
-        if (digital(TOUCH)) {
-            off(RIGHT);
-            off(LEFT);
-            break;
-        }
+        if (digital(TOUCH)) break;
         
         msleep(5);
     }
-    // off(RIGHT);
-    // off(LEFT);
+    off(RIGHT);
+    off(LEFT);
 }
 
 
@@ -163,6 +135,7 @@ void lineCalibrate(int* white, int* black) {
         printf("White: %d\n", analog(TOPHAT));
     }
     *white = analog(TOPHAT);
+    msleep(500);
 
     // calibrate black
     while(!right_button()) {
