@@ -29,13 +29,17 @@
      // line follow until planter bin (it's okay if it runs over a few poms)
      printf("before line follow\n");
      // lineFollow(white, black, 400, 600, 12345); // touch mode
-     lineFollow(white, black, 400, 600, 3500);
+     lineFollow(white, black, 400, 600, 3700);
      printf("after line follow\n");
      
      
      // pick up poms
      slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 700);
      msleep(500);
+     
+     move(-1, 500);
+     msleep(500);
+     
      slowServo(ARM, ARM_0, ARM_45, 1000);
      msleep(1000);
      
@@ -52,11 +56,19 @@
 
 
 int main() {
+    // wait until light
+    // wait_for_light();
+    
+    
     // calibrate line follower
     int white = 1710;
     int black = 3640;
     // default values should be fine
     // lineCalibrate(&white, &black);
+    
+    
+    move(-2, 700);
+    msleep(3000);
     
     
     // set initial claw position to grab poms
@@ -80,7 +92,7 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 400, 1200, 8400);
+    lineFollow(white, black, 1000, 400, 3500);
     
     
     move(16, 1000);
@@ -90,7 +102,7 @@ int main() {
     // raise arm and move back
     slowServo(ARM, ARM_N10, ARM_90, 800);
     msleep(1000);
-    move(-8, 700);
+    move(-6, 700);
     // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
@@ -101,7 +113,7 @@ int main() {
     dropDemPoms(white, black);
     
     // move back
-    move(-24, 1500);
+    move(-22, 1500);
     msleep(500);
     set_servo_position(ARM, ARM_N10);
     

@@ -62,8 +62,8 @@ void lineCalibrate(int* white, int* black);
  * @param white       White value for the line follower
  * @param black       Black value for the line follower
  * @param speed       Base speed the line follower is going at
- * @param sensitivity How much the speed can vary (from speed - sensitivity to
- *                    speed + sensitivity)
+ * @param sensitivity How much the speed can vary (from speed - 1/2 sensitivity to
+ *                    speed + 1/2 sensitivity)
  * @param totalTime   How long the line follower can run (set to 12345 for touch
  *                    sensor mode)
  */

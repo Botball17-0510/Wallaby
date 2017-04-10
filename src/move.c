@@ -9,8 +9,8 @@
 
 
 
-#define RIGHT 0
-#define LEFT 1
+#define RIGHT 2
+#define LEFT 3
 #define TOPHAT 0
 #define TOUCH 1
 
@@ -21,8 +21,8 @@
 
 void move(int inches, int speed) {
     // clear position counter
-    cmpc(RIGHT);
-    cmpc(LEFT);
+    // cmpc(RIGHT);
+    // cmpc(LEFT);
     
     // if want to go backwards, set speed negative
     if (inches < 0) speed *= -1;
