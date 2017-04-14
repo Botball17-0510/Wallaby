@@ -19,8 +19,9 @@
 #define CLAW_CLOSED 300
 
 /* wire position
- * - one that goes around the light sensor: left port and black facing
- * - the other one: right port and red facing
+ * - one that goes around the light sensor: 2nd port and red facing
+ * - the other one: 4th port and black facing
+ * ignore RIGHT/LEFT #define on move.c
  */
 
 
@@ -29,7 +30,7 @@
      // line follow until planter bin (it's okay if it runs over a few poms)
      printf("before line follow\n");
      // lineFollow(white, black, 400, 600, 12345); // touch mode
-     lineFollow(white, black, 400, 600, 3700);
+     lineFollow(white, black, 400, 600, 3400);
      printf("after line follow\n");
      
      
@@ -37,13 +38,13 @@
      slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 700);
      msleep(500);
      
-     move(-1, 500);
+     move(-3, 500);
      msleep(500);
      
      slowServo(ARM, ARM_0, ARM_45, 1000);
      msleep(1000);
      
-     move(16, 500);
+     move(18, 500);
      
      // drop poms
      set_servo_position(CLAW, CLAW_OPEN);
@@ -61,8 +62,10 @@ int main() {
     
     
     // calibrate line follower
-    int white = 1710;
-    int black = 3640;
+    // int white = 1710;
+    // int black = 3640;
+    int white = 220;
+    int black = 3000;
     // default values should be fine
     // lineCalibrate(&white, &black);
     
@@ -95,27 +98,26 @@ int main() {
     lineFollow(white, black, 1000, 400, 3500);
     
     
-    move(16, 1000);
+    // move forward to push poms into claw area
+    move(17, 1000);
     slowServo(CLAW, CLAW_CLOSED, CLAW_OPEN, 500);
-    
+        
     
     // raise arm and move back
     slowServo(ARM, ARM_N10, ARM_90, 800);
     msleep(1000);
-    move(-6, 700);
+    move(-9, 700);
     // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
-    
-    // turn left a bit to get light sensor on line
-    turnOneWheel(-10, 1, 700);
     
     dropDemPoms(white, black);
     
     // move back
     move(-22, 1500);
     msleep(500);
-    set_servo_position(ARM, ARM_N10);
+    slowServo(ARM, ARM_135, ARM_N10, 500);
+    msleep(500);
     
     
     /* REPEAT */

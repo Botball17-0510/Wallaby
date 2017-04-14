@@ -9,8 +9,8 @@
 
 
 
-#define RIGHT 2
-#define LEFT 3
+#define RIGHT 1
+#define LEFT 2
 #define TOPHAT 0
 #define TOUCH 1
 
@@ -31,7 +31,7 @@ void move(int inches, int speed) {
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
     // a little less time if at max speed; figure out factor later
-    msleep((float)abs(inches) * (float)INCH * (speed == 1500 ? 0.7 : 1)); // time take to move == # of ticks
+    msleep((float)abs(inches) * (float)INCH * (speed == 1500 ? 0.7 : 1.1)); // time take to move == # of ticks
     off(RIGHT);
     off(LEFT);
 }
@@ -149,4 +149,49 @@ void lineCalibrate(int* white, int* black) {
     while(!right_button()) {
         msleep(10);
     }
+}
+
+
+
+
+void forward(float distance){//go forward a number of CM    NOT    backEMF counts
+	if(distance < 0l){
+		distance = -distance;
+	}
+	long newdist;
+	newdist = distance*CMtoBEMF;//conversion ratio
+	long l = gmpc(MOT_LEFT)+newdist;
+	long r = gmpc(MOT_RIGHT)+newdist;
+	motor(MOT_LEFT,SPDl);
+	motor(MOT_RIGHT,SPDr);
+	while(gmpc(MOT_LEFT) < l && gmpc(MOT_RIGHT) < r){
+		if (gmpc(MOT_LEFT) >= l)
+			off(MOT_LEFT);
+		if (gmpc(MOT_RIGHT) >= r)
+			off(MOT_RIGHT);
+	}
+	drive_off();
+	
+	/*mrp(MOT_RIGHT,SPDrb,newdist*rdistmultb);
+	mrp(MOT_LEFT,SPDlb,newdist);
+	bmd(MOT_RIGHT);
+	bmd(MOT_LEFT);*/
+}
+void backward(float distance){//go backward a number of CM    NOT    backEMF counts
+	if(distance < 0l){
+		distance = -distance;
+	}
+	long newdist;
+	newdist = distance*CMtoBEMF;
+	long l = gmpc(MOT_LEFT)-newdist;
+	long r = gmpc(MOT_RIGHT)-newdist;
+	motor(MOT_LEFT,-SPDlb);
+	motor(MOT_RIGHT,-SPDrb);
+	while(gmpc(MOT_LEFT) > l && gmpc(MOT_RIGHT) > r){
+		if (gmpc(MOT_LEFT) <= l)
+			off(MOT_LEFT);
+		if (gmpc(MOT_RIGHT) <= r)
+			off(MOT_RIGHT);
+	}
+	drive_off();
 }
