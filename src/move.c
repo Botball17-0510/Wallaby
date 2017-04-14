@@ -32,8 +32,8 @@ void move(int inches, int speed) {
     mrp(LEFT, speed, inches * INCH);
     // a little less time if at max speed; figure out factor later
     msleep((float)abs(inches) * (float)INCH * (speed == 1500 ? 0.7 : 1.1)); // time take to move == # of ticks
-    off(RIGHT);
-    off(LEFT);
+    freeze(RIGHT);
+    freeze(LEFT);
 }
 
 
@@ -154,7 +154,39 @@ void lineCalibrate(int* white, int* black) {
 
 
 
+/*
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+********************************************************************************
+ */
+
+#define MOT_LEFT 2//Polyp edition! Unique to each robot
+#define MOT_RIGHT 1 //Unique to each robot
+#define PI 3.14159265358979
+
+#define SPD 100//turning
+#define SPDl 100.//left forward
+#define SPDr 100.//right forward
+#define rdistmult 1.0
+#define SPDlb 100.//left backward
+#define SPDrb 100.//right backward
+#define rdistmultb (SPDrb/SPDlb)
+#define wheeldiameter 6.5 //Unique to each robot
+#define ks 14.5 //Unique to each robot
+#define CMtoBEMF (850/(PI*wheeldiameter))
+
+
+
+void drive_off(){
+	off(MOT_RIGHT);
+	off(MOT_LEFT);
+}
 void forward(float distance){//go forward a number of CM    NOT    backEMF counts
+    distance *= 2.54;
 	if(distance < 0l){
 		distance = -distance;
 	}
@@ -178,6 +210,7 @@ void forward(float distance){//go forward a number of CM    NOT    backEMF count
 	bmd(MOT_LEFT);*/
 }
 void backward(float distance){//go backward a number of CM    NOT    backEMF counts
+    distance *= 2.54;
 	if(distance < 0l){
 		distance = -distance;
 	}

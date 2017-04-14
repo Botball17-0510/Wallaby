@@ -79,4 +79,10 @@ void lineCalibrate(int* white, int* black);
 
 
 
+
+void drive_off();
+void forward(float distance);
+void backward(float distance);
+
+
 #endif

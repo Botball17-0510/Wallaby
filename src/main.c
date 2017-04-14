@@ -62,10 +62,10 @@ int main() {
     
     
     // calibrate line follower
-    // int white = 1710;
-    // int black = 3640;
-    int white = 220;
-    int black = 3000;
+    int white = 1710;
+    int black = 3640;
+    // int white = 220;
+    // int black = 3000;
     // default values should be fine
     // lineCalibrate(&white, &black);
     
