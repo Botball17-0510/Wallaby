@@ -27,11 +27,11 @@
 
 
 
- void dropDemPoms(int white, int black) {
+ void dropDemPoms(int white, int black, int time) {
      // line follow until planter bin (it's okay if it runs over a few poms)
      printf("before line follow\n");
      // lineFollow(white, black, 400, 600, 12345); // touch mode
-     lineFollow(white, black, 400, 600, 3400);
+     lineFollow(white, black, 400, 600, time);	//3400 time
      printf("after line follow\n");
 
 
@@ -92,10 +92,10 @@ int main() {
     msleep(400);
     slowServo(ARM, ARM_N10, ARM_90, 100);
 
-    move(17, 1500);
+    move(17, 1000);
     // set arm down
     slowServo(ARM, ARM_90, ARM_0, 500);
-    move(3, 1500);
+    move(3, 1000);
 
 
     // line follow until top of ramp
@@ -116,17 +116,17 @@ int main() {
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
 
-    dropDemPoms(white, black);
+    dropDemPoms(white, black, 3400);
 
     // move back
-    move(-22, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
+    move(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
     msleep(500);
     slowServo(ARM, ARM_135, ARM_N10, 500);
     msleep(500);
 
 
     /* REPEAT */
-    dropDemPoms(white, black);
+    dropDemPoms(white, black, 2000);
 
     // clean up
     disable_servo(ARM);

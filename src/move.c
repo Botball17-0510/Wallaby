@@ -32,10 +32,45 @@ void move(int inches, int speed) {
     mrp(LEFT, speed, inches * INCH);
     // a little less time if at max speed; figure out factor later
     msleep((float)abs(inches) * (float)INCH * (speed == 1500 ? 0.7 : 1.1)); // time take to move == # of ticks
-    freeze(RIGHT);
+
+  	//msleep(500);	//TEST - mrp may not have completed by the first msleep
+  	freeze(RIGHT);
     freeze(LEFT);
 }
 
+void motDrive(float distance, int speed) {
+	long leftDistance = gmpc(LEFT) + (distance * INCH);	//INCH TO TICKS
+	long rightDistance = gmpc(RIGHT) + (distance * INCH);
+	motor(LEFT, speed);
+	motor(RIGHT, speed);
+	while(gmpc(LEFT) < leftDistance && gmpc(RIGHT) < rightDistance){
+		if (gmpc(LEFT) >= leftDistance) {
+          	freeze(LEFT);
+        }
+		if (gmpc(RIGHT) >= rightDistance) {
+          	freeze(RIGHT);
+        }
+	}
+	freeze(LEFT);
+  	freeze(RIGHT);
+}
+
+void mavDrive(float distance, int speed) {
+	long leftDistance = gmpc(LEFT) + (distance * INCH);	//INCH TO TICKS
+	long rightDistance = gmpc(RIGHT) + (distance * INCH);
+	mav(LEFT, speed);
+	mav(RIGHT, speed);
+	while(gmpc(LEFT) < leftDistance && gmpc(RIGHT) < rightDistance){
+		if (gmpc(LEFT) >= leftDistance) {
+          	freeze(LEFT);
+        }
+		if (gmpc(RIGHT) >= rightDistance) {
+          	freeze(RIGHT);
+        }
+	}
+	freeze(LEFT);
+  	freeze(RIGHT);
+}
 
 
 void asyncMove(int inches, int speed) {
