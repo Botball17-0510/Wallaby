@@ -39,13 +39,13 @@
      slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 700);
      msleep(500);
 
-     move(-3, 500);
+     mavDrive(-3, 500);
      msleep(500);
 
      slowServo(ARM, ARM_0, ARM_45, 1000);
      msleep(1000);
 
-     move(18, 500);
+     mavDrive(18, 500);
 
      // drop poms
      set_servo_position(CLAW, CLAW_OPEN);
@@ -76,7 +76,7 @@ int main() {
   	enable_servo(ARM);
 
   	//wait_for_light(LIGHT);	//IMPLEMENT BEFORE TOURNAMENT
-    move(-2, 700);	//square up and wait for Create
+    mavDrive(-2, 700);	//square up and wait for Create
     msleep(3000);
 
 
@@ -85,17 +85,17 @@ int main() {
     set_servo_position(ARM, ARM_N10);
     msleep(700);
 
-    move(2, 700);
+    mavDrive(2, 700);
 
     // grab pom
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
     msleep(400);
     slowServo(ARM, ARM_N10, ARM_90, 100);
 
-    move(17, 1000);
+    mavDrive(17, 1000);
     // set arm down
     slowServo(ARM, ARM_90, ARM_0, 500);
-    move(3, 1000);
+    mavDrive(3, 1000);
 
 
     // line follow until top of ramp
@@ -103,15 +103,15 @@ int main() {
 
 
     // move forward to push poms into claw area
-    move(17, 1000);
+    mavDrive(17, 1000);
     slowServo(CLAW, CLAW_CLOSED, CLAW_OPEN, 500);
   	msleep(500);
 
 
     // raise arm and move back
-    slowServo(ARM, ARM_N10, ARM_90, 800);
+    slowServo(ARM, ARM_0, ARM_90, 800);
     msleep(1000);
-    move(-9, 700);
+    mavDrive(-9, 700);
     // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
@@ -119,7 +119,7 @@ int main() {
     dropDemPoms(white, black, 3400);
 
     // move back
-    move(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
+    mavDrive(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
     msleep(500);
     slowServo(ARM, ARM_135, ARM_N10, 500);
     msleep(500);

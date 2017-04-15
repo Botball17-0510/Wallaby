@@ -38,7 +38,7 @@ void move(int inches, int speed) {
     freeze(LEFT);
 }
 
-void motDrive(float distance, int speed) {
+void motDrive(float distance, int speed) {	//only works for forward
 	long leftDistance = gmpc(LEFT) + (distance * INCH);	//INCH TO TICKS
 	long rightDistance = gmpc(RIGHT) + (distance * INCH);
 	motor(LEFT, speed);
@@ -58,16 +58,31 @@ void motDrive(float distance, int speed) {
 void mavDrive(float distance, int speed) {
 	long leftDistance = gmpc(LEFT) + (distance * INCH);	//INCH TO TICKS
 	long rightDistance = gmpc(RIGHT) + (distance * INCH);
-	mav(LEFT, speed);
+  	if(distance < 0) {
+     	speed = speed * -1;
+    }
+  	mav(LEFT, speed);
 	mav(RIGHT, speed);
-	while(gmpc(LEFT) < leftDistance && gmpc(RIGHT) < rightDistance){
-		if (gmpc(LEFT) >= leftDistance) {
-          	freeze(LEFT);
-        }
-		if (gmpc(RIGHT) >= rightDistance) {
-          	freeze(RIGHT);
-        }
-	}
+  	if(distance > 0) {
+    	while(gmpc(LEFT) < leftDistance && gmpc(RIGHT) < rightDistance){
+			if (gmpc(LEFT) >= leftDistance) {
+          		freeze(LEFT);
+        	}
+			if (gmpc(RIGHT) >= rightDistance) {
+          		freeze(RIGHT);
+        	}
+		}
+    }
+  	else {
+      	while(gmpc(LEFT) > leftDistance && gmpc(RIGHT) > rightDistance){
+			if (gmpc(LEFT) <= leftDistance) {
+          		freeze(LEFT);
+        	}
+			if (gmpc(RIGHT) <= rightDistance) {
+          		freeze(RIGHT);
+        	}
+		}
+    }
 	freeze(LEFT);
   	freeze(RIGHT);
 }
