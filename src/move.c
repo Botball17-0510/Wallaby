@@ -23,11 +23,11 @@ void move(int inches, int speed) {
     // clear position counter
     // cmpc(RIGHT);
     // cmpc(LEFT);
-    
+
     // if want to go backwards, set speed negative
     if (inches < 0) speed *= -1;
     // distance still has to be negative, not positive
-    
+
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
     // a little less time if at max speed; figure out factor later
@@ -42,7 +42,7 @@ void asyncMove(int inches, int speed) {
     // if want to go backwards, set speed negative
     if (inches < 0) speed *= -1;
     // distance still has to be negative, not positive
-    
+
     mrp(RIGHT, speed, inches * INCH);
     mrp(LEFT, speed, inches * INCH);
 }
@@ -84,8 +84,8 @@ void slowServo(int servo, int startPos, int goal, int milliseconds) {
     // how far to move the servo every time
     float oneMove = (float)(goalRelative) / (milliseconds / 5.0); // 5 ms delay
     //                      ^-- delta        ^-- number of loops
-    
-    
+
+
     float pos;
     for (pos = 0; fabsf(pos) < abs(goalRelative); pos += oneMove) {
         set_servo_position(servo, (int)(pos + startPos));
@@ -97,16 +97,16 @@ void slowServo(int servo, int startPos, int goal, int milliseconds) {
 
 
 void lineFollow(int white, int black, int speed, int sensitivity, int totalTime) {
-    
+
     int timeElapsed = 0;
-    
+
     while(1) {
         // change to number between 0 and 1
         float light = (float)(analog(TOPHAT) - white) / (float)(black - white);
         // ensure light is within range from 0 to 1
         if (light < 0) light = 0;
         if (light > 1) light = 1;
-        
+
         // move straight if between 0.4 and 0.6
         if (light > 0.4 && light < 0.6) light = 0.5;
 
@@ -117,13 +117,15 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
 
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
-        
+
         if (digital(TOUCH)) break;
-        
+
         msleep(5);
     }
-    off(RIGHT);
-    off(LEFT);
+    //off(RIGHT);
+    //off(LEFT);
+  	freeze(RIGHT);
+  	freeze(LEFT);
 }
 
 
@@ -143,7 +145,7 @@ void lineCalibrate(int* white, int* black) {
         printf("Black: %d\n", analog(TOPHAT));
     }
     *black = analog(TOPHAT);
-    
+
     printf("White: %d, black: %d", *white, *black);
     printf("Press right button to continue:");
     while(!right_button()) {
@@ -203,7 +205,7 @@ void forward(float distance){//go forward a number of CM    NOT    backEMF count
 			off(MOT_RIGHT);
 	}
 	drive_off();
-	
+
 	/*mrp(MOT_RIGHT,SPDrb,newdist*rdistmultb);
 	mrp(MOT_LEFT,SPDlb,newdist);
 	bmd(MOT_RIGHT);

@@ -5,6 +5,7 @@
 #define ARM 0
 #define CLAW 1
 
+#define LIGHT 0 //LIGHT SENSOR FOR LIGHT START
 
 // arm positions (by degree)
 #define ARM_135 2047
@@ -32,20 +33,20 @@
      // lineFollow(white, black, 400, 600, 12345); // touch mode
      lineFollow(white, black, 400, 600, 3400);
      printf("after line follow\n");
-     
-     
+
+
      // pick up poms
      slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 700);
      msleep(500);
-     
+
      move(-3, 500);
      msleep(500);
-     
+
      slowServo(ARM, ARM_0, ARM_45, 1000);
      msleep(1000);
-     
+
      move(18, 500);
-     
+
      // drop poms
      set_servo_position(CLAW, CLAW_OPEN);
      msleep(500);
@@ -59,8 +60,8 @@
 int main() {
     // wait until light
     // wait_for_light();
-    
-    
+
+
     // calibrate line follower
     int white = 1710;
     int black = 3640;
@@ -68,21 +69,24 @@ int main() {
     // int black = 3000;
     // default values should be fine
     // lineCalibrate(&white, &black);
-    
-    
-    move(-2, 700);
+
+  	set_servo_position(CLAW, CLAW_OPEN);	//enable servos to starting positions
+    set_servo_position(ARM, ARM_135);
+    enable_servo(CLAW);
+  	enable_servo(ARM);
+
+  	//wait_for_light(LIGHT);	//IMPLEMENT BEFORE TOURNAMENT
+    move(-2, 700);	//square up and wait for Create
     msleep(3000);
-    
-    
+
+
     // set initial claw position to grab poms
     set_servo_position(CLAW, CLAW_OPEN);
     set_servo_position(ARM, ARM_N10);
-    enable_servo(CLAW);
-    enable_servo(ARM);
     msleep(700);
-    
+
     move(2, 700);
-    
+
     // grab pom
     slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
     msleep(400);
@@ -96,13 +100,14 @@ int main() {
 
     // line follow until top of ramp
     lineFollow(white, black, 1000, 400, 3500);
-    
-    
+
+
     // move forward to push poms into claw area
     move(17, 1000);
     slowServo(CLAW, CLAW_CLOSED, CLAW_OPEN, 500);
-        
-    
+  	msleep(500);
+
+
     // raise arm and move back
     slowServo(ARM, ARM_N10, ARM_90, 800);
     msleep(1000);
@@ -110,19 +115,19 @@ int main() {
     // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
-    
+
     dropDemPoms(white, black);
-    
+
     // move back
-    move(-22, 1500);
+    move(-22, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
     msleep(500);
     slowServo(ARM, ARM_135, ARM_N10, 500);
     msleep(500);
-    
-    
+
+
     /* REPEAT */
     dropDemPoms(white, black);
-    
+
     // clean up
     disable_servo(ARM);
     disable_servo(CLAW);
