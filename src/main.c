@@ -76,6 +76,7 @@ int main() {
   	enable_servo(ARM);
 
   	//wait_for_light(LIGHT);	//IMPLEMENT BEFORE TOURNAMENT
+  	shut_down_in(119);
     mavDrive(-2, 700);	//square up and wait for Create
     //msleep(20000);
 

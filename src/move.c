@@ -9,8 +9,8 @@
 
 
 
-#define RIGHT 1
-#define LEFT 2
+#define RIGHT 2
+#define LEFT 1
 #define TOPHAT 0
 #define TOUCH 1
 
@@ -162,8 +162,8 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
 
         light -= 0.5; // change to number between -0.5 and 0.5
 
-        mav(RIGHT, speed - (light * sensitivity));
-        mav(LEFT, speed + (light * sensitivity));
+        mav(LEFT, speed - (light * sensitivity));
+        mav(RIGHT, speed + (light * sensitivity));
 
         timeElapsed += 5;
         if (timeElapsed > totalTime) break;
