@@ -77,7 +77,7 @@ int main() {
 
   	//wait_for_light(LIGHT);	//IMPLEMENT BEFORE TOURNAMENT
     mavDrive(-2, 700);	//square up and wait for Create
-    msleep(3000);
+    //msleep(20000);
 
 
     // set initial claw position to grab poms
@@ -99,7 +99,7 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(white, black, 1000, 400, 3500);
+    lineFollow(white, black, 1000, 400, 3000);
 
 
     // move forward to push poms into claw area

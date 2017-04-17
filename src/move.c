@@ -62,7 +62,7 @@ void mavDrive(float distance, int speed) {
      	speed = speed * -1;
     }
   	mav(LEFT, speed);
-	mav(RIGHT, speed);
+	mav(RIGHT, speed);	//correcting left veer
   	if(distance > 0) {
     	while(gmpc(LEFT) < leftDistance && gmpc(RIGHT) < rightDistance){
 			if (gmpc(LEFT) >= leftDistance) {
