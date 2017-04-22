@@ -9,6 +9,10 @@
 
 
 
+#define WHITE 1710
+#define BLACK 3640
+
+
 #define RIGHT 2
 #define LEFT 1
 #define TOPHAT 0
@@ -146,13 +150,13 @@ void slowServo(int servo, int startPos, int goal, int milliseconds) {
 
 
 
-void lineFollow(int white, int black, int speed, int sensitivity, int totalTime) {
+void lineFollow(int speed, int sensitivity, int totalTime) {
 
     int timeElapsed = 0;
 
     while(1) {
         // change to number between 0 and 1
-        float light = (float)(analog(TOPHAT) - white) / (float)(black - white);
+        float light = (float)(analog(TOPHAT) - WHITE) / (float)(BLACK - WHITE);
         // ensure light is within range from 0 to 1
         if (light < 0) light = 0;
         if (light > 1) light = 1;
@@ -201,82 +205,4 @@ void lineCalibrate(int* white, int* black) {
     while(!right_button()) {
         msleep(10);
     }
-}
-
-
-
-
-/*
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
- */
-
-#define MOT_LEFT 2//Polyp edition! Unique to each robot
-#define MOT_RIGHT 1 //Unique to each robot
-#define PI 3.14159265358979
-
-#define SPD 100//turning
-#define SPDl 100.//left forward
-#define SPDr 100.//right forward
-#define rdistmult 1.0
-#define SPDlb 100.//left backward
-#define SPDrb 100.//right backward
-#define rdistmultb (SPDrb/SPDlb)
-#define wheeldiameter 6.5 //Unique to each robot
-#define ks 14.5 //Unique to each robot
-#define CMtoBEMF (850/(PI*wheeldiameter))
-
-
-
-void drive_off(){
-	off(MOT_RIGHT);
-	off(MOT_LEFT);
-}
-void forward(float distance){//go forward a number of CM    NOT    backEMF counts
-    distance *= 2.54;
-	if(distance < 0l){
-		distance = -distance;
-	}
-	long newdist;
-	newdist = distance*CMtoBEMF;//conversion ratio
-	long l = gmpc(MOT_LEFT)+newdist;
-	long r = gmpc(MOT_RIGHT)+newdist;
-	motor(MOT_LEFT,SPDl);
-	motor(MOT_RIGHT,SPDr);
-	while(gmpc(MOT_LEFT) < l && gmpc(MOT_RIGHT) < r){
-		if (gmpc(MOT_LEFT) >= l)
-			off(MOT_LEFT);
-		if (gmpc(MOT_RIGHT) >= r)
-			off(MOT_RIGHT);
-	}
-	drive_off();
-
-	/*mrp(MOT_RIGHT,SPDrb,newdist*rdistmultb);
-	mrp(MOT_LEFT,SPDlb,newdist);
-	bmd(MOT_RIGHT);
-	bmd(MOT_LEFT);*/
-}
-void backward(float distance){//go backward a number of CM    NOT    backEMF counts
-    distance *= 2.54;
-	if(distance < 0l){
-		distance = -distance;
-	}
-	long newdist;
-	newdist = distance*CMtoBEMF;
-	long l = gmpc(MOT_LEFT)-newdist;
-	long r = gmpc(MOT_RIGHT)-newdist;
-	motor(MOT_LEFT,-SPDlb);
-	motor(MOT_RIGHT,-SPDrb);
-	while(gmpc(MOT_LEFT) > l && gmpc(MOT_RIGHT) > r){
-		if (gmpc(MOT_LEFT) <= l)
-			off(MOT_LEFT);
-		if (gmpc(MOT_RIGHT) <= r)
-			off(MOT_RIGHT);
-	}
-	drive_off();
 }

@@ -67,7 +67,7 @@ void lineCalibrate(int* white, int* black);
  * @param totalTime   How long the line follower can run (set to 12345 for touch
  *                    sensor mode)
  */
-void lineFollow(int white, int black, int speed, int sensitivity, int totalTime);
+void lineFollow(int speed, int sensitivity, int totalTime);
 
 
 /**
@@ -77,12 +77,8 @@ void lineFollow(int white, int black, int speed, int sensitivity, int totalTime)
  */
 void lineCalibrate(int* white, int* black);
 
-
-
-
-void drive_off();
-void forward(float distance);
-void backward(float distance);
+void motDrive(float distance, int speed);
+void mavDrive(float distance, int speed);
 
 
 #endif
