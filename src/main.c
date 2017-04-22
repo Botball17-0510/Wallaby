@@ -90,7 +90,7 @@ int main() {
 
 
     // line follow until top of ramp
-    lineFollow(1000, 400, 3200);
+    lineFollow(1000, 400, 3000);
 
 
     // move forward to push poms into claw area
@@ -102,7 +102,7 @@ int main() {
     // raise arm and move back
     slowServo(ARM, ARM_0, ARM_90, 800);
     msleep(1000);
-    mavDrive(-7, 700);
+    mavDrive(-8, 700);
     // move arm down
     slowServo(ARM, ARM_90, ARM_N10, 600);
     msleep(500);
@@ -110,7 +110,7 @@ int main() {
     dropDemPoms(3400);
 
     // move back
-    move(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
+    mavDrive(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
     msleep(500);
     slowServo(ARM, ARM_135, ARM_N10, 500);
     msleep(500);
