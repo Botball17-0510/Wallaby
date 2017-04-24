@@ -68,7 +68,7 @@ int main() {
     wait_for_light(LIGHT);
   	shut_down_in(119);
     mavDrive(-2, 700);	//square up and wait for Create
-    // msleep(20000);
+    msleep(15 * 1000);
 
 
     // set initial claw position to grab poms
@@ -79,8 +79,8 @@ int main() {
     mavDrive(2, 700);
 
     // grab pom
-    slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 10);
-    msleep(400);
+    slowServo(CLAW, CLAW_OPEN, CLAW_CLOSED, 100);
+    msleep(700);
     slowServo(ARM, ARM_N10, ARM_90, 100);
 
     mavDrive(17, 1000);

@@ -9,8 +9,10 @@
 
 
 
-#define WHITE 1710
-#define BLACK 3640
+// #define WHITE 1710
+// #define BLACK 3640
+#define WHITE 2600
+#define BLACK 3700
 
 
 #define RIGHT 2
