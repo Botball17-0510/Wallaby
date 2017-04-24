@@ -114,10 +114,20 @@ int main() {
     msleep(500);
     slowServo(ARM, ARM_135, ARM_N10, 500);
     msleep(500);
-
-
+    
     /* REPEAT */
     dropDemPoms(2000);
+    
+    
+    // move back
+    mavDrive(-15, 700);	//PROBLEM - ROBOT VEERS. NOTE: 1500 power is outside of parameter limit
+    msleep(500);
+    slowServo(ARM, ARM_135, ARM_N10, 500);
+    msleep(500);
+    
+    /* REPEAT */
+    dropDemPoms(2000);
+    
     
     // go back a bit so the box isn't squished
     msleep(1000);
