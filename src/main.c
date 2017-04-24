@@ -65,7 +65,7 @@ int main() {
     enable_servo(CLAW);
   	enable_servo(ARM);
 
-    // wait_for_light(LIGHT);	//IMPLEMENT BEFORE TOURNAMENT
+    wait_for_light(LIGHT);
   	shut_down_in(119);
     mavDrive(-2, 700);	//square up and wait for Create
     // msleep(20000);
@@ -118,6 +118,10 @@ int main() {
 
     /* REPEAT */
     dropDemPoms(2000);
+    
+    // go back a bit so the box isn't squished
+    msleep(1000);
+    mavDrive(-1, 500);
 
     // clean up
     disable_servo(ARM);
