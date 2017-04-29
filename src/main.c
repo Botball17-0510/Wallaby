@@ -46,7 +46,7 @@
      slowServo(ARM, ARM_0, ARM_45, 1000);
      msleep(1000);
 
-     mavDrive(18, 500);
+     mavDrive(13, 500);
 
      // drop poms
      set_servo_position(CLAW, CLAW_OPEN);
@@ -59,6 +59,10 @@
 
 
 int main() {
+    // calibrate line follower
+    lineCalibrate();
+    
+    
     // enable servos to starting positions
     set_servo_position(CLAW, CLAW_OPEN);
     set_servo_position(ARM, ARM_135);
@@ -130,8 +134,7 @@ int main() {
     
     
     // go back a bit so the box isn't squished
-    msleep(1000);
-    mavDrive(-1, 500);
+    mavDrive(-2, 500);
 
     // clean up
     disable_servo(ARM);

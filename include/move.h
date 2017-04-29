@@ -3,6 +3,11 @@
 
 
 
+int WHITE;
+int BLACK;
+
+
+
 /**
  * Move the wallaby in a straight line.
  * @param inches Number of inches to move
@@ -54,7 +59,7 @@ void slowServo(int servo, int startPos, int goal, int milliseconds);
  * @param white Returns the white value for the line follower
  * @param black Returns the black value for the line follower
  */
-void lineCalibrate(int* white, int* black);
+void lineCalibrate();
 
 
 /**
@@ -68,14 +73,6 @@ void lineCalibrate(int* white, int* black);
  *                    sensor mode)
  */
 void lineFollow(int speed, int sensitivity, int totalTime);
-
-
-/**
- * Calibrate the line follower
- * @param white Returns the white value for the line follower
- * @param black Returns the black value for the line follower
- */
-void lineCalibrate(int* white, int* black);
 
 void motDrive(float distance, int speed);
 void mavDrive(float distance, int speed);

@@ -8,11 +8,9 @@
 #include <math.h>
 
 
+int WHITE = 0;
+int BLACK = 0;
 
-// #define WHITE 1710
-// #define BLACK 3640
-#define WHITE 2600
-#define BLACK 3700
 
 
 #define RIGHT 2
@@ -186,13 +184,13 @@ void lineFollow(int speed, int sensitivity, int totalTime) {
 
 
 
-void lineCalibrate(int* white, int* black) {
+void lineCalibrate() {
     // calibrate white
     while(!right_button()) {
         msleep(10);
         printf("White: %d\n", analog(TOPHAT));
     }
-    *white = analog(TOPHAT);
+    WHITE = analog(TOPHAT);
     msleep(500);
 
     // calibrate black
@@ -200,11 +198,12 @@ void lineCalibrate(int* white, int* black) {
         msleep(10);
         printf("Black: %d\n", analog(TOPHAT));
     }
-    *black = analog(TOPHAT);
-
-    printf("White: %d, black: %d", *white, *black);
+    BLACK = analog(TOPHAT);
+    
+    printf("White: %d, black: %d\n", WHITE, BLACK);
     printf("Press right button to continue:");
     while(!right_button()) {
         msleep(10);
     }
+    msleep(500);
 }
